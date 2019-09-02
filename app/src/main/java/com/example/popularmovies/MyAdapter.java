@@ -35,6 +35,7 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.PlaceViewHolder> {
     public class PlaceViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         public ImageView mPlace;
         public TextView mText;
+
         public PlaceViewHolder(View itemView) {
             super(itemView);
             mPlace = itemView.findViewById(R.id.image_iv);

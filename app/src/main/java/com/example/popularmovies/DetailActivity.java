@@ -43,7 +43,7 @@ public class DetailActivity extends AppCompatActivity {
         releaseDateTextView = findViewById(R.id.release_date_tv);
         ratingTextView = findViewById(R.id.rating_tv);
         summaryTextView = findViewById(R.id.summary_tv);
-        mLoadingIndicator = (ProgressBar)findViewById(R.id.pb_loading_indicator_detail);
+        mLoadingIndicator = (ProgressBar) findViewById(R.id.pb_loading_indicator_detail);
         releaseDateText = findViewById(R.id.release_date_text);
         ratingText = findViewById(R.id.rating_text);
 
@@ -63,6 +63,7 @@ public class DetailActivity extends AppCompatActivity {
 
         loadDetailedMovie();
     }
+
     private void closeOnError() {
         finish();
         Toast.makeText(this, R.string.detail_error_message, Toast.LENGTH_SHORT).show();

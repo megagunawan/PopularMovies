@@ -31,7 +31,8 @@ public class DetailedMovie {
     private double vote_average;
     private long vote_count;
 
-    public DetailedMovie() {}
+    public DetailedMovie() {
+    }
 
     public DetailedMovie(boolean adult, String backdrop_path, String belongs_to_collection, long budget,
                          List<Bundle> genres, String homepage, long id, String imdb_id, String original_language,
@@ -177,6 +178,7 @@ public class DetailedMovie {
     public void setProduction_companies(List<Bundle> production_companies) {
         this.production_companies = production_companies;
     }
+
     public List<Bundle> getProduction_countries() {
         return production_countries;
     }

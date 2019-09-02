@@ -1,4 +1,5 @@
 package com.example.popularmovies.model;
+
 import java.util.List;
 
 public class Movie {
@@ -17,22 +18,23 @@ public class Movie {
     private String overview;
     private String poster_path;
 
-    public Movie() {}
+    public Movie() {
+    }
 
-    public Movie (double popularity,
-                  long id,
-                  boolean video,
-                  long vote_count,
-                  double vote_average,
-                  String title,
-                  String release_date,
-                  String original_language,
-                  String original_title,
-                  List<Long> genre_ids,
-                  String backdrop_path,
-                  boolean adult,
-                  String overview,
-                  String poster_path) {
+    public Movie(double popularity,
+                 long id,
+                 boolean video,
+                 long vote_count,
+                 double vote_average,
+                 String title,
+                 String release_date,
+                 String original_language,
+                 String original_title,
+                 List<Long> genre_ids,
+                 String backdrop_path,
+                 boolean adult,
+                 String overview,
+                 String poster_path) {
         this.popularity = popularity;
         this.id = id;
         this.video = video;

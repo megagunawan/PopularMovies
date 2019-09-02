@@ -16,6 +16,7 @@ public class MyResult {
         this.movieTitles = movieTitles;
         this.movieIDs = movieIDs;
     }
+
     public ArrayList<Movie> getMovieList() {
         return movieList;
     }
@@ -28,5 +29,7 @@ public class MyResult {
         return movieTitles;
     }
 
-    public ArrayList<Long> getMovieIDs() { return movieIDs; }
+    public ArrayList<Long> getMovieIDs() {
+        return movieIDs;
+    }
 }

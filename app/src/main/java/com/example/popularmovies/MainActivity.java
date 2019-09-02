@@ -37,8 +37,8 @@ public class MainActivity extends AppCompatActivity implements MyAdapter.MyAdapt
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        mRecyclerView = (RecyclerView)findViewById(R.id.recycler_view);
-        mLoadingIndicator = (ProgressBar)findViewById(R.id.pb_loading_indicator);
+        mRecyclerView = (RecyclerView) findViewById(R.id.recycler_view);
+        mLoadingIndicator = (ProgressBar) findViewById(R.id.pb_loading_indicator);
         GridLayoutManager gridLayoutManager = new GridLayoutManager(MainActivity.this, 2);
 
         myAdapter = new MyAdapter(this);
@@ -108,7 +108,7 @@ public class MainActivity extends AppCompatActivity implements MyAdapter.MyAdapt
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
-        if(id == R.id.top_rated && userMenuChoice != "top_rated") {
+        if (id == R.id.top_rated && userMenuChoice != "top_rated") {
             userMenuChoice = "top_rated";
             loadMovies();
         } else if (id == R.id.popular && userMenuChoice != "popular") {

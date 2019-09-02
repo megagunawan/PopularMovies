@@ -80,7 +80,7 @@ public class JsonUtils {
                         adult, overview, poster_path);
                 movieList.add(movie);
             }
-        } catch(Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
         return new MyResult(movieList, imageURLs, movieTitles, movieIDs);
@@ -155,7 +155,7 @@ public class JsonUtils {
             vote_count = obj.getLong("vote_count");
 
             JSONObject genreObj = null;
-            for(int i = 0; i < genresArr.length(); i++) {
+            for (int i = 0; i < genresArr.length(); i++) {
                 genreObj = genresArr.getJSONObject(i);
                 Bundle temp = new Bundle();
                 temp.putInt("id", genreObj.getInt("id"));
@@ -164,7 +164,7 @@ public class JsonUtils {
             }
 
             JSONObject companyObj = null;
-            for(int i = 0; i < companiesArr.length(); i++) {
+            for (int i = 0; i < companiesArr.length(); i++) {
                 companyObj = companiesArr.getJSONObject(i);
                 Bundle temp = new Bundle();
                 temp.putInt("id", companyObj.getInt("id"));
@@ -175,7 +175,7 @@ public class JsonUtils {
             }
 
             JSONObject countryObj = null;
-            for(int i = 0; i < countriesArr.length(); i++) {
+            for (int i = 0; i < countriesArr.length(); i++) {
                 countryObj = countriesArr.getJSONObject(i);
                 Bundle temp = new Bundle();
                 temp.putString("iso_3166_1", countryObj.getString("iso_3166_1"));
@@ -184,7 +184,7 @@ public class JsonUtils {
             }
 
             JSONObject langObj = null;
-            for(int i = 0; i < languagesArr.length(); i++) {
+            for (int i = 0; i < languagesArr.length(); i++) {
                 langObj = languagesArr.getJSONObject(i);
                 Bundle temp = new Bundle();
                 temp.putString("iso_639_1", langObj.getString("iso_639_1"));

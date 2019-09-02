@@ -12,7 +12,9 @@ import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.databinding.DataBindingUtil;
 
+import com.example.popularmovies.databinding.ActivityDetailBinding;
 import com.example.popularmovies.model.DetailedMovie;
 import com.example.popularmovies.utils.JsonUtils;
 import com.example.popularmovies.utils.NetworkUtils;
@@ -23,21 +25,17 @@ import java.net.URL;
 
 public class DetailActivity extends AppCompatActivity {
 
-    private TextView titleTextView;
     private ImageView imageView;
-    private TextView releaseDateTextView;
-    private TextView ratingTextView;
-    private TextView summaryTextView;
-    private ProgressBar mLoadingIndicator;
-    private TextView releaseDateText;
-    private TextView ratingText;
     private String movieId = null;
+
+    private ActivityDetailBinding mBinding;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detail);
-
+        mBinding = DataBindingUtil.setContentView(this, R.layout.activity_detail);
+      
         titleTextView = findViewById(R.id.detail_title);
         imageView = findViewById(R.id.detail_image);
         releaseDateTextView = findViewById(R.id.release_date_tv);
@@ -78,7 +76,8 @@ public class DetailActivity extends AppCompatActivity {
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
-            mLoadingIndicator.setVisibility(View.VISIBLE);
+            mBinding.pbLoadingIndicatorDetail.setVisibility(View.VISIBLE);
+//            mLoadingIndicator.setVisibility(View.VISIBLE);
         }
 
         @Override
@@ -97,17 +96,20 @@ public class DetailActivity extends AppCompatActivity {
 
         @Override
         protected void onPostExecute(DetailedMovie result) {
-            mLoadingIndicator.setVisibility(View.INVISIBLE);
-            ratingText.setVisibility(View.VISIBLE);
-            releaseDateText.setVisibility(View.VISIBLE);
-            Log.v("id", Long.toString(result.getId()));
-            titleTextView.setText(result.getTitle());
+            mBinding.pbLoadingIndicatorDetail.setVisibility(View.INVISIBLE);
+            mBinding.ratingText.setVisibility(View.VISIBLE);
+            mBinding.releaseDateText.setVisibility(View.VISIBLE);
+            mBinding.detailTitle.setText(result.getTitle());
+
             Picasso.with(getApplicationContext())
                     .load(result.getPoster_path())
-                    .into(imageView);
-            releaseDateTextView.setText(result.getRelease_date());
-            ratingTextView.setText(Double.toString(result.getVote_average()) + " / 10");
-            summaryTextView.setText(result.getOverview());
+                    .into(mBinding.detailImage);
+
+            mBinding.releaseDateText.setText(result.getRelease_date());
+            mBinding.ratingText.setText(Double.toString(result.getVote_average()) + " / 10");
+            mBinding.summaryTv.setText(result.getOverview());
+
+            Log.v("id", Long.toString(result.getId()));
         }
     }
 

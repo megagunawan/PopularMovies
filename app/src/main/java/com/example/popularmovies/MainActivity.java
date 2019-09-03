@@ -49,7 +49,11 @@ public class MainActivity extends AppCompatActivity implements MyAdapter.MyAdapt
     }
 
     private void loadMovies() {
-        new MyAsyncTask().execute(userMenuChoice);
+        if (userMenuChoice != "favorite") {
+            new MyAsyncTask().execute(userMenuChoice);
+        } else {
+            
+        }
     }
 
     @Override
@@ -113,6 +117,10 @@ public class MainActivity extends AppCompatActivity implements MyAdapter.MyAdapt
             loadMovies();
         } else if (id == R.id.popular && userMenuChoice != "popular") {
             userMenuChoice = "popular";
+            loadMovies();
+        }
+        else if (id == R.id.favorite && userMenuChoice != "favorite") {
+            userMenuChoice = "favorite";
             loadMovies();
         }
 

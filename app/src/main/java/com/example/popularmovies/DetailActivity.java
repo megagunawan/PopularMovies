@@ -36,14 +36,14 @@ public class DetailActivity extends AppCompatActivity {
         setContentView(R.layout.activity_detail);
         mBinding = DataBindingUtil.setContentView(this, R.layout.activity_detail);
       
-        titleTextView = findViewById(R.id.detail_title);
+//        titleTextView = findViewById(R.id.detail_title);
         imageView = findViewById(R.id.detail_image);
-        releaseDateTextView = findViewById(R.id.release_date_tv);
-        ratingTextView = findViewById(R.id.rating_tv);
-        summaryTextView = findViewById(R.id.summary_tv);
-        mLoadingIndicator = (ProgressBar) findViewById(R.id.pb_loading_indicator_detail);
-        releaseDateText = findViewById(R.id.release_date_text);
-        ratingText = findViewById(R.id.rating_text);
+//        releaseDateTextView = findViewById(R.id.release_date_tv);
+//        ratingTextView = findViewById(R.id.rating_tv);
+//        summaryTextView = findViewById(R.id.summary_tv);
+//        mLoadingIndicator = (ProgressBar) findViewById(R.id.pb_loading_indicator_detail);
+//        releaseDateText = findViewById(R.id.release_date_text);
+//        ratingText = findViewById(R.id.rating_text);
 
         Intent intent = getIntent();
         if (intent == null) {

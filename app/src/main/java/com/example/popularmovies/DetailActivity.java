@@ -14,6 +14,7 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.databinding.DataBindingUtil;
 
+import com.example.popularmovies.database.AppDatabase;
 import com.example.popularmovies.databinding.ActivityDetailBinding;
 import com.example.popularmovies.model.DetailedMovie;
 import com.example.popularmovies.utils.JsonUtils;
@@ -25,25 +26,16 @@ import java.net.URL;
 
 public class DetailActivity extends AppCompatActivity {
 
-    private ImageView imageView;
     private String movieId = null;
-
     private ActivityDetailBinding mBinding;
+    private AppDatabase mDatabase;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detail);
         mBinding = DataBindingUtil.setContentView(this, R.layout.activity_detail);
-      
-//        titleTextView = findViewById(R.id.detail_title);
-        imageView = findViewById(R.id.detail_image);
-//        releaseDateTextView = findViewById(R.id.release_date_tv);
-//        ratingTextView = findViewById(R.id.rating_tv);
-//        summaryTextView = findViewById(R.id.summary_tv);
-//        mLoadingIndicator = (ProgressBar) findViewById(R.id.pb_loading_indicator_detail);
-//        releaseDateText = findViewById(R.id.release_date_text);
-//        ratingText = findViewById(R.id.rating_text);
+        mDatabase = AppDatabase.getsInstance(getApplicationContext());
 
         Intent intent = getIntent();
         if (intent == null) {
@@ -77,7 +69,6 @@ public class DetailActivity extends AppCompatActivity {
         protected void onPreExecute() {
             super.onPreExecute();
             mBinding.pbLoadingIndicatorDetail.setVisibility(View.VISIBLE);
-//            mLoadingIndicator.setVisibility(View.VISIBLE);
         }
 
         @Override
@@ -99,14 +90,15 @@ public class DetailActivity extends AppCompatActivity {
             mBinding.pbLoadingIndicatorDetail.setVisibility(View.INVISIBLE);
             mBinding.ratingText.setVisibility(View.VISIBLE);
             mBinding.releaseDateText.setVisibility(View.VISIBLE);
+            Log.v("ratingreleasedatetext", "visible");
             mBinding.detailTitle.setText(result.getTitle());
 
             Picasso.with(getApplicationContext())
                     .load(result.getPoster_path())
                     .into(mBinding.detailImage);
 
-            mBinding.releaseDateText.setText(result.getRelease_date());
-            mBinding.ratingText.setText(Double.toString(result.getVote_average()) + " / 10");
+            mBinding.releaseDateTv.setText(result.getRelease_date());
+            mBinding.ratingTv.setText(Double.toString(result.getVote_average()) + " / 10");
             mBinding.summaryTv.setText(result.getOverview());
 
             Log.v("id", Long.toString(result.getId()));

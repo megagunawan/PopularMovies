@@ -1,26 +1,6 @@
-<<<<<<< Updated upstream
-=======
-<<<<<<< HEAD
-<<<<<<< Updated upstream
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="VcsDirectoryMappings">
-    <mapping directory="" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$" vcs="Git" />
   </component>
-=======
-=======
->>>>>>> master
->>>>>>> Stashed changes
-<?xml version="1.0" encoding="UTF-8"?>
-<project version="4">
-  <component name="VcsDirectoryMappings">
-    <mapping directory="" vcs="Git" />
-  </component>
-<<<<<<< Updated upstream
-=======
-<<<<<<< HEAD
->>>>>>> Stashed changes
-=======
->>>>>>> master
->>>>>>> Stashed changes
 </project>

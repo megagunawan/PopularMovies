@@ -6,12 +6,10 @@ import androidx.room.Delete;
 import androidx.room.Insert;
 import androidx.room.Query;
 
-import com.example.popularmovies.model.Movie;
-
 import java.util.List;
 
 @Dao
-public interface TaskDao {
+public interface MovieDao {
 
     @Query("SELECT * FROM movie WHERE id = :id")
     LiveData<MovieEntry> findIfExistsInDatabase(long id);
@@ -21,4 +19,7 @@ public interface TaskDao {
 
     @Delete
     void deleteMovie(MovieEntry movieEntry);
+
+    @Query("SELECT * FROM movie")
+    LiveData<List<MovieEntry>> getAllMovies();
 }

@@ -11,9 +11,11 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.popularmovies.database.MovieEntry;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class MyAdapter extends RecyclerView.Adapter<MyAdapter.PlaceViewHolder> {
 
@@ -83,6 +85,18 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.PlaceViewHolder> {
         imageURLs = images;
         movieTitles = titles;
         movieIds = ids;
+        notifyDataSetChanged();
+    }
+
+    public void setMovies(List<MovieEntry> movieEntries) {
+        imageURLs = new ArrayList<>();
+        movieTitles = new ArrayList<>();
+        movieIds = new ArrayList<>();
+        for (MovieEntry movie: movieEntries) {
+            imageURLs.add(movie.getImageURL());
+            movieTitles.add(movie.getMovieTitle());
+            movieIds.add(movie.getId());
+        }
         notifyDataSetChanged();
     }
 }

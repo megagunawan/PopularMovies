@@ -8,7 +8,6 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.popularmovies.database.MovieEntry;
@@ -17,7 +16,7 @@ import com.squareup.picasso.Picasso;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MyAdapter extends RecyclerView.Adapter<MyAdapter.PlaceViewHolder> {
+public class MainAdapter extends RecyclerView.Adapter<MainAdapter.PlaceViewHolder> {
 
     private Context mContext;
     private ArrayList<String> imageURLs;
@@ -30,7 +29,7 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.PlaceViewHolder> {
         void onClick(long movieId);
     }
 
-    public MyAdapter(MyAdapterOnClickHandler clickHandler) {
+    public MainAdapter(MyAdapterOnClickHandler clickHandler) {
         mClickHandler = clickHandler;
     }
 

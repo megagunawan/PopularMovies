@@ -10,7 +10,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -19,7 +18,6 @@ import android.widget.ProgressBar;
 
 import com.example.popularmovies.database.AppDatabase;
 import com.example.popularmovies.database.MovieEntry;
-import com.example.popularmovies.model.Movie;
 import com.example.popularmovies.utils.JsonUtils;
 import com.example.popularmovies.model.MyResult;
 import com.example.popularmovies.utils.NetworkUtils;
@@ -29,7 +27,7 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MainActivity extends AppCompatActivity implements MyAdapter.MyAdapterOnClickHandler {
+public class MainActivity extends AppCompatActivity implements MainAdapter.MyAdapterOnClickHandler {
 
     private RecyclerView mRecyclerView;
     private ProgressBar mLoadingIndicator;
@@ -37,7 +35,7 @@ public class MainActivity extends AppCompatActivity implements MyAdapter.MyAdapt
     private ArrayList<String> imageURLs = new ArrayList<>();
     private ArrayList<String> movieTitles = new ArrayList<>();
     private ArrayList<Long> movieIDs = new ArrayList<>();
-    MyAdapter myAdapter;
+    MainAdapter myAdapter;
     private AppDatabase mDatabase;
     private ArrayList<MovieEntry> movieEntries = new ArrayList<>();
 
@@ -52,7 +50,7 @@ public class MainActivity extends AppCompatActivity implements MyAdapter.MyAdapt
         mLoadingIndicator = (ProgressBar) findViewById(R.id.pb_loading_indicator);
         GridLayoutManager gridLayoutManager = new GridLayoutManager(MainActivity.this, 2);
 
-        myAdapter = new MyAdapter(this);
+        myAdapter = new MainAdapter(this);
         mRecyclerView.setAdapter(myAdapter);
         mRecyclerView.setLayoutManager(gridLayoutManager);
 

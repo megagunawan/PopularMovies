@@ -79,6 +79,16 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
 
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recycler_view_trailer"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recycler_view_review"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
             <ProgressBar
                 android:id="@+id/pb_loading_indicator_detail"
                 android:layout_width="42dp"
@@ -86,26 +96,6 @@
                 android:layout_gravity="center"
                 android:visibility="invisible" />
         </LinearLayout>
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/summary_tv" />
+    </ScrollView>
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/recycler_view_trailer"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
-
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/recycler_view_review"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
-
-        <ProgressBar
-            android:id="@+id/pb_loading_indicator_detail"
-            android:layout_height="42dp"
-            android:layout_width="42dp"
-            android:layout_gravity="center"
-            android:visibility="invisible" />
-    </LinearLayout>
 </layout>

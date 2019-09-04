@@ -11,8 +11,8 @@ import java.util.List;
 @Dao
 public interface MovieDao {
 
-    @Query("SELECT * FROM movie WHERE id = :id")
-    LiveData<MovieEntry> findIfExistsInDatabase(long id);
+    @Query("SELECT COUNT(*) FROM movie WHERE id = :id")
+    int findIfExistsInDatabase(long id);
 
     @Insert
     void insertMovie(MovieEntry movieEntry);

@@ -5,6 +5,7 @@ import android.util.Log;
 
 import com.example.popularmovies.model.DetailedMovie;
 import com.example.popularmovies.model.Movie;
+import com.example.popularmovies.model.MovieReview;
 import com.example.popularmovies.model.MovieTrailer;
 import com.example.popularmovies.model.MyResult;
 
@@ -231,5 +232,32 @@ public class JsonUtils {
             e.printStackTrace();
         }
         return new MovieTrailer(id, key, name);
+    }
+
+    public static MovieReview parseReview(String json) {
+        JSONObject obj;
+        JSONArray resultsArr;
+        JSONObject resultsObj;
+
+        long id = 0;
+
+        ArrayList<String> authors = new ArrayList<>();
+        ArrayList<String> contents = new ArrayList<>();
+        try {
+            obj = new JSONObject(json);
+            id = obj.getLong("id");
+
+            resultsArr = obj.getJSONArray("results");
+
+            for (int i = 0; i < resultsArr.length(); i++) {
+                resultsObj = resultsArr.getJSONObject(i);
+
+                authors.add(resultsObj.getString("author"));
+                contents.add(resultsObj.getString("content"));
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return new MovieReview(id, authors, contents);
     }
 }

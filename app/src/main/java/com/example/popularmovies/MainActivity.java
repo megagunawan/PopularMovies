@@ -1,5 +1,6 @@
 package com.example.popularmovies;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.Observer;
@@ -11,11 +12,12 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Handler;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 
 import com.example.popularmovies.database.AppDatabase;
@@ -32,26 +34,25 @@ import java.util.List;
 public class MainActivity extends AppCompatActivity implements MainAdapter.MyAdapterOnClickHandler {
 
     private RecyclerView mRecyclerView;
-    private LinearLayout mLinearLayout;
     private ProgressBar mLoadingIndicator;
-    private String POSITION_KEY = "position_key";
     private String MENU_CHOICE = "menu_choice";
     private String userMenuChoice = "top_rated";
+    private boolean changedChoice = false;
     private ArrayList<String> imageURLs = new ArrayList<>();
     private ArrayList<String> movieTitles = new ArrayList<>();
     private ArrayList<Long> movieIDs = new ArrayList<>();
     MainAdapter myAdapter;
     private AppDatabase mDatabase;
     private ArrayList<MovieEntry> movieEntries = new ArrayList<>();
-    private int currentPage = 1;
+    private int currentPage = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Log.v("test", "test");
 
         if (savedInstanceState != null) {
             userMenuChoice = savedInstanceState.getString(MENU_CHOICE);
-            //mRecyclerView.scrollToPosition(savedInstanceState.getInt(POSITION_KEY));
         }
 
         setContentView(R.layout.activity_main);
@@ -59,10 +60,12 @@ public class MainActivity extends AppCompatActivity implements MainAdapter.MyAda
         mDatabase = AppDatabase.getsInstance(getApplicationContext());
 
         mRecyclerView = (RecyclerView) findViewById(R.id.recycler_view);
+
         mLoadingIndicator = (ProgressBar) findViewById(R.id.pb_loading_indicator);
-        GridLayoutManager gridLayoutManager = new GridLayoutManager(MainActivity.this, 2);
+        final GridLayoutManager gridLayoutManager = new GridLayoutManager(MainActivity.this, 2);
 
         myAdapter = new MainAdapter(this);
+
         mRecyclerView.setAdapter(myAdapter);
         mRecyclerView.setLayoutManager(gridLayoutManager);
 
@@ -70,9 +73,31 @@ public class MainActivity extends AppCompatActivity implements MainAdapter.MyAda
     }
 
     private void loadMovies() {
-        if (userMenuChoice != "favorite") {
+        if (changedChoice == true && userMenuChoice != "favorite") {
+            currentPage = 1;
+            changedChoice = false;
+            myAdapter = new MainAdapter(this);
+            mRecyclerView.setAdapter(myAdapter);
             new MyAsyncTask().execute(userMenuChoice);
+        } else if (changedChoice == false && currentPage == 0 && userMenuChoice != "favorite") {
+            currentPage = 1;
+            new MyAsyncTask().execute(userMenuChoice);
+        }
+        else if (changedChoice == false && userMenuChoice != "favorite") {
+            mRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
+                @Override
+                public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
+                    super.onScrollStateChanged(recyclerView, newState);
+
+                    if (!recyclerView.canScrollVertically(1)) {
+                        currentPage++;
+                        new MyAsyncTask().execute(userMenuChoice);
+                    }
+                }
+            });
         } else {
+            myAdapter = new MainAdapter(this);
+            mRecyclerView.setAdapter(myAdapter);
             LiveData<List<MovieEntry>> movies = mDatabase.movieDao().getAllMovies();
             movies.observe(this, new Observer<List<MovieEntry>>() {
                 @Override
@@ -127,7 +152,7 @@ public class MainActivity extends AppCompatActivity implements MainAdapter.MyAda
     }
 
     private void showData(ArrayList<String> imageURLs, ArrayList<String> movieTitles, ArrayList<Long> movieIDs) {
-        myAdapter.setData(imageURLs, movieTitles, movieIDs);
+        myAdapter.setData(imageURLs, movieTitles, movieIDs, currentPage);
     }
 
     @Override
@@ -142,12 +167,15 @@ public class MainActivity extends AppCompatActivity implements MainAdapter.MyAda
         int id = item.getItemId();
         if (id == R.id.top_rated && userMenuChoice != "top_rated") {
             userMenuChoice = "top_rated";
+            changedChoice = true;
             loadMovies();
         } else if (id == R.id.popular && userMenuChoice != "popular") {
             userMenuChoice = "popular";
+            changedChoice = true;
             loadMovies();
         } else if (id == R.id.favorite && userMenuChoice != "favorite") {
             userMenuChoice = "favorite";
+            changedChoice = true;
             loadMovies();
         }
 

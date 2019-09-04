@@ -19,9 +19,9 @@ import java.util.List;
 public class MainAdapter extends RecyclerView.Adapter<MainAdapter.PlaceViewHolder> {
 
     private Context mContext;
-    private ArrayList<String> imageURLs;
-    private ArrayList<String> movieTitles;
-    private ArrayList<Long> movieIds;
+    private ArrayList<String> imageURLs = new ArrayList<>();
+    private ArrayList<String> movieTitles = new ArrayList<>();
+    private ArrayList<Long> movieIds = new ArrayList<>();
     private final MyAdapterOnClickHandler mClickHandler;
     private long movieId;
 
@@ -43,8 +43,6 @@ public class MainAdapter extends RecyclerView.Adapter<MainAdapter.PlaceViewHolde
             mText = itemView.findViewById(R.id.title_tv);
             itemView.setOnClickListener(this);
         }
-
-
 
         @Override
         public void onClick(View view) {
@@ -79,13 +77,16 @@ public class MainAdapter extends RecyclerView.Adapter<MainAdapter.PlaceViewHolde
         } else return 0;
     }
 
-    void setData(ArrayList<String> images, ArrayList<String> titles, ArrayList<Long> ids) {
-        imageURLs = new ArrayList<>();
-        movieTitles = new ArrayList<>();
-        movieIds = new ArrayList<>();
-        imageURLs = images;
-        movieTitles = titles;
-        movieIds = ids;
+    void setData(ArrayList<String> images, ArrayList<String> titles, ArrayList<Long> ids, int currentPage) {
+
+        if (currentPage == 1) {
+            imageURLs = new ArrayList<>();
+            movieTitles = new ArrayList<>();
+            movieIds = new ArrayList<>();
+        }
+        imageURLs.addAll(images);
+        movieTitles.addAll(titles);
+        movieIds.addAll(ids);
         notifyDataSetChanged();
     }
 

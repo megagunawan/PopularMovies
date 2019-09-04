@@ -6,4 +6,8 @@
     <string name="release_date">Release Date:</string>
     <string name="rating">Rating:</string>
     <string name="favorite">Favorite</string>
+    <string name="add_to_favorite">Add to Favorite</string>
+    <string name="add_to_favorite_success">Added to Favorite List</string>
+    <string name="unfavorite">Remove from Favorite List</string>
+    <string name="unfavorite_success">Removed from Favorite List</string>
 </resources>

@@ -5,21 +5,21 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.Observer;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.recyclerview.widget.RecyclerView.ViewHolder;
 
 import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 
 import com.example.popularmovies.database.AppDatabase;
 import com.example.popularmovies.database.MovieEntry;
-import com.example.popularmovies.model.Movie;
 import com.example.popularmovies.utils.JsonUtils;
 import com.example.popularmovies.model.MyResult;
 import com.example.popularmovies.utils.NetworkUtils;
@@ -29,21 +29,31 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MainActivity extends AppCompatActivity implements MyAdapter.MyAdapterOnClickHandler {
+public class MainActivity extends AppCompatActivity implements MainAdapter.MyAdapterOnClickHandler {
 
     private RecyclerView mRecyclerView;
+    private LinearLayout mLinearLayout;
     private ProgressBar mLoadingIndicator;
+    private String POSITION_KEY = "position_key";
+    private String MENU_CHOICE = "menu_choice";
     private String userMenuChoice = "top_rated";
     private ArrayList<String> imageURLs = new ArrayList<>();
     private ArrayList<String> movieTitles = new ArrayList<>();
     private ArrayList<Long> movieIDs = new ArrayList<>();
-    MyAdapter myAdapter;
+    MainAdapter myAdapter;
     private AppDatabase mDatabase;
     private ArrayList<MovieEntry> movieEntries = new ArrayList<>();
+    private int currentPage = 1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        if (savedInstanceState != null) {
+            userMenuChoice = savedInstanceState.getString(MENU_CHOICE);
+            //mRecyclerView.scrollToPosition(savedInstanceState.getInt(POSITION_KEY));
+        }
+
         setContentView(R.layout.activity_main);
 
         mDatabase = AppDatabase.getsInstance(getApplicationContext());
@@ -52,7 +62,7 @@ public class MainActivity extends AppCompatActivity implements MyAdapter.MyAdapt
         mLoadingIndicator = (ProgressBar) findViewById(R.id.pb_loading_indicator);
         GridLayoutManager gridLayoutManager = new GridLayoutManager(MainActivity.this, 2);
 
-        myAdapter = new MyAdapter(this);
+        myAdapter = new MainAdapter(this);
         mRecyclerView.setAdapter(myAdapter);
         mRecyclerView.setLayoutManager(gridLayoutManager);
 
@@ -96,7 +106,7 @@ public class MainActivity extends AppCompatActivity implements MyAdapter.MyAdapt
             URL myURL;
             String result = null;
             try {
-                myURL = NetworkUtils.buildUrl(params[0]);
+                myURL = NetworkUtils.buildUrl(params[0], currentPage);
                 result = NetworkUtils.getResponseFromHttpUrl(myURL);
             } catch (IOException e) {
                 e.printStackTrace();
@@ -142,6 +152,12 @@ public class MainActivity extends AppCompatActivity implements MyAdapter.MyAdapt
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putString(MENU_CHOICE, userMenuChoice);
     }
 }
 

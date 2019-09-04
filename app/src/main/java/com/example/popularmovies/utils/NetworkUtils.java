@@ -48,6 +48,34 @@ public class NetworkUtils {
         return null;
     }
 
+    public static URL buildUrlTrailerMovie(String movieId) {
+        Uri myUri = Uri.parse(BASE_URL).buildUpon()
+                .appendPath(movieId + "/trailers")
+                .appendQueryParameter(API_PARAM, API_KEY)
+                .build();
+        try {
+            URL newURL = new URL(myUri.toString());
+            return newURL;
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    public static URL buildUrlReviewMovie(String movieId) {
+        Uri myUri = Uri.parse(BASE_URL).buildUpon()
+                .appendPath(movieId + "/reviews")
+                .appendQueryParameter(API_PARAM, API_KEY)
+                .build();
+        try {
+            URL newURL = new URL(myUri.toString());
+            return newURL;
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
 
     public static String getResponseFromHttpUrl(URL url) throws IOException {
         HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();

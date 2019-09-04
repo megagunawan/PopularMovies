@@ -225,7 +225,7 @@ public class JsonUtils {
             for (int i = 0; i < resultsArr.length(); i++) {
                 resultsObj = resultsArr.getJSONObject(i);
 
-                key.add(resultsObj.getString("key"));
+                key.add(resultsObj.getString("source"));
                 name.add(resultsObj.getString("name"));
             }
         } catch (Exception e) {

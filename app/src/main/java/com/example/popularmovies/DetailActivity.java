@@ -1,6 +1,9 @@
 package com.example.popularmovies;
 
+import android.content.ActivityNotFoundException;
+import android.content.Context;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
@@ -10,6 +13,8 @@ import android.widget.Toast;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.databinding.DataBindingUtil;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.popularmovies.database.AppDatabase;
 import com.example.popularmovies.database.MovieEntry;
@@ -21,14 +26,26 @@ import com.example.popularmovies.utils.NetworkUtils;
 import com.squareup.picasso.Picasso;
 
 import java.io.IOException;
+import java.lang.reflect.Array;
 import java.net.URL;
+import java.util.ArrayList;
 
-public class DetailActivity extends AppCompatActivity implements View.OnClickListener {
+public class DetailActivity extends AppCompatActivity implements TrailerAdapter.TrailerAdapterOnClickHandler, View.OnClickListener {
 
+    private RecyclerView mTrailerRecyclerView;
+    private RecyclerView mReviewRecyclerView;
     private String movieId = null;
     private ActivityDetailBinding mBinding;
     private AppDatabase mDatabase;
     private DetailedMovie detailedMovie;
+    private ArrayList<String> trailerKeys = new ArrayList<>();
+    private ArrayList<String> trailerTitles = new ArrayList<>();
+    private ArrayList<String> reviewAuthors = new ArrayList<>();
+    private ArrayList<String> reviewContents = new ArrayList<>();
+
+    TrailerAdapter trailerAdapter;
+    ReviewAdapter reviewAdapter;
+
     private boolean[] inFavorite = new boolean[1];
 
     @Override
@@ -39,6 +56,8 @@ public class DetailActivity extends AppCompatActivity implements View.OnClickLis
         mDatabase = AppDatabase.getsInstance(getApplicationContext());
         mBinding.favoriteButton.setOnClickListener(this);
 
+        mTrailerRecyclerView = (RecyclerView) findViewById(R.id.recycler_view_trailer);
+        mReviewRecyclerView = (RecyclerView) findViewById(R.id.recycler_view_review);
 
         Intent intent = getIntent();
         if (intent == null) {
@@ -46,7 +65,20 @@ public class DetailActivity extends AppCompatActivity implements View.OnClickLis
             return;
         }
 
+        LinearLayoutManager trailerLinearLM = new LinearLayoutManager(DetailActivity.this);
+        LinearLayoutManager reviewLinearLM = new LinearLayoutManager(DetailActivity.this);
+
+        trailerAdapter = new TrailerAdapter(this);
+        reviewAdapter = new ReviewAdapter();
+
+        mTrailerRecyclerView.setAdapter(trailerAdapter);
+        mReviewRecyclerView.setAdapter(reviewAdapter);
+
+        mTrailerRecyclerView.setLayoutManager(trailerLinearLM);
+        mReviewRecyclerView.setLayoutManager(reviewLinearLM);
+
         movieId = intent.getStringExtra(Intent.EXTRA_TEXT);
+
         if (movieId == null) {
             // EXTRA_POSITION not found in intent
             closeOnError();
@@ -66,6 +98,7 @@ public class DetailActivity extends AppCompatActivity implements View.OnClickLis
         new MyAsyncTask().execute(movieId);
     }
 
+    // View onClick Override
     @Override
     public void onClick(View view) {
         long id = Long.parseLong(movieId);
@@ -97,6 +130,20 @@ public class DetailActivity extends AppCompatActivity implements View.OnClickLis
         }
     }
 
+    // Trailer Adapter onClick Override -> open new intent youtube app or youtube web
+    @Override
+    public void onClick(String key) {
+        Intent appIntent = new Intent(Intent.ACTION_VIEW,
+                Uri.parse("vnd.youtube:" + key));
+        Intent webIntent = new Intent(Intent.ACTION_VIEW,
+                Uri.parse("https://www.youtube.com/watch?v=" + key));
+        try{
+            startActivity(appIntent);
+        } catch (ActivityNotFoundException ex) {
+            startActivity(webIntent);
+        }
+    }
+
     public class MyAsyncTask extends AsyncTask<String, Void, DetailedMovie> {
 
         @Override
@@ -106,7 +153,7 @@ public class DetailActivity extends AppCompatActivity implements View.OnClickLis
             AppExecutors.getInstance().diskIO().execute(new Runnable() {
                 @Override
                 public void run() {
-                    Log.v("findifexsits", ""+mDatabase.movieDao().findIfExistsInDatabase(Long.parseLong(movieId)));
+                    Log.v("findifexists", ""+mDatabase.movieDao().findIfExistsInDatabase(Long.parseLong(movieId)));
                     if (mDatabase.movieDao().findIfExistsInDatabase(Long.parseLong(movieId)) != 0) {
                         inFavorite[0] = true;
                     } else {
@@ -119,14 +166,26 @@ public class DetailActivity extends AppCompatActivity implements View.OnClickLis
         @Override
         protected DetailedMovie doInBackground(String... params) {
             URL myURL;
+            URL trailerURL;
+            URL reviewURL;
             String result = null;
+            String trailerResult = null;
+            String reviewResult = null;
             try {
                 myURL = NetworkUtils.buildUrlDetailMovie(params[0]);
                 result = NetworkUtils.getResponseFromHttpUrl(myURL);
+
+                trailerURL = NetworkUtils.buildUrlTrailerMovie(params[0]);
+                trailerResult = NetworkUtils.getResponseFromHttpUrl(trailerURL);
+
+                reviewURL = NetworkUtils.buildUrlReviewMovie(params[0]);
+                reviewResult = NetworkUtils.getResponseFromHttpUrl(reviewURL);
             } catch (IOException e) {
                 e.printStackTrace();
             }
             detailedMovie = JsonUtils.parseDetailedMovie(result);
+            detailedMovie.setMovieTrailer(JsonUtils.parseTrailer(trailerResult));
+            detailedMovie.setMovieReview(JsonUtils.parseReview(reviewResult));
             return detailedMovie;
         }
 
@@ -139,6 +198,12 @@ public class DetailActivity extends AppCompatActivity implements View.OnClickLis
             Log.v("ratingreleasedatetext", "visible");
             mBinding.detailTitle.setText(result.getTitle());
 
+            trailerKeys = result.getMovieTrailer().getMovieKey();
+            trailerTitles = result.getMovieTrailer().getTrailerName();
+            reviewAuthors = result.getMovieReview().getAuthors();
+            reviewContents = result.getMovieReview().getContents();
+            showTrailer(trailerKeys, trailerTitles, result.getId());
+            showReview(reviewAuthors, reviewContents, result.getId());
 
             Log.v("inFavorite value", ""+inFavorite[0]);
             if (inFavorite[0]) {
@@ -154,6 +219,16 @@ public class DetailActivity extends AppCompatActivity implements View.OnClickLis
             mBinding.summaryTv.setText(result.getOverview());
 
             Log.v("id", Long.toString(result.getId()));
+        }
+
+        private void showTrailer(ArrayList<String> keys, ArrayList<String> titles, long movieId){
+            Log.v("TRAILER", trailerKeys + "");
+            trailerAdapter.setData(keys, titles, movieId);
+        }
+
+        private void showReview(ArrayList<String> authors, ArrayList<String> contents, long movieId){
+            Log.v("REVIEW", reviewAuthors + "");
+            reviewAdapter.setData(authors, contents, movieId);
         }
 
     }

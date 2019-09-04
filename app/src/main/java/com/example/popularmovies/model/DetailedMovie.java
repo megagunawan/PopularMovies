@@ -5,6 +5,9 @@ import android.os.Bundle;
 import java.util.List;
 
 public class DetailedMovie {
+    MovieTrailer movieTrailer;
+    MovieReview movieReview;
+
     private boolean adult;
     private String backdrop_path;
     private String belongs_to_collection;
@@ -267,4 +270,19 @@ public class DetailedMovie {
         this.vote_count = vote_count;
     }
 
+    public MovieTrailer getMovieTrailer() {
+        return movieTrailer;
+    }
+
+    public void setMovieTrailer(MovieTrailer movieTrailer) {
+        this.movieTrailer = movieTrailer;
+    }
+
+    public MovieReview getMovieReview() {
+        return movieReview;
+    }
+
+    public void setMovieReview(MovieReview movieReview) {
+        this.movieReview = movieReview;
+    }
 }

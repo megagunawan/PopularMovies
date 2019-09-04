@@ -21,7 +21,7 @@ public class TrailerAdapter extends RecyclerView.Adapter<TrailerAdapter.TrailerV
     private final TrailerAdapterOnClickHandler mClickHandler;
 
     public interface TrailerAdapterOnClickHandler {
-        void onClick(Uri key);
+        void onClick(String key);
     }
 
     public TrailerAdapter(TrailerAdapterOnClickHandler clickHandler) {
@@ -40,17 +40,13 @@ public class TrailerAdapter extends RecyclerView.Adapter<TrailerAdapter.TrailerV
             itemView.setOnClickListener(this);
         }
 
-        public Uri getUriTrailer(String key) {
-            return Uri.parse("http://www.youtube.com/watch?v=" + key);
-        }
-
         @Override
         public void onClick(View v) {
             String key;
             int adapterPosition = getAdapterPosition();
             key = trailerKeys.get(adapterPosition);
             try {
-                mClickHandler.onClick(getUriTrailer(key));
+                mClickHandler.onClick(key);
             } catch (NullPointerException e) {
                 e.printStackTrace();
             }
@@ -76,10 +72,10 @@ public class TrailerAdapter extends RecyclerView.Adapter<TrailerAdapter.TrailerV
         } else return 0;
     }
 
-    void setData(ArrayList<String> images, ArrayList<String> titles, Long id) {
+    void setData(ArrayList<String> keys, ArrayList<String> titles, Long id) {
         trailerKeys = new ArrayList<>();
         trailerTitles = new ArrayList<>();
-        trailerKeys = images;
+        trailerKeys = keys;
         trailerTitles = titles;
         movieId = id;
         notifyDataSetChanged();

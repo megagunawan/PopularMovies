@@ -6,12 +6,12 @@ import java.util.ArrayList;
 public class MovieTrailer {
     private final long movieId;
     private final ArrayList<String> movieKey;
-    private final ArrayList<String> movieName;
+    private final ArrayList<String> trailerName;
 
-    public MovieTrailer(long movieId, ArrayList<String> movieKey, ArrayList<String> movieName) {
+    public MovieTrailer(long movieId, ArrayList<String> movieKey, ArrayList<String> trailerName) {
         this.movieId = movieId;
         this.movieKey = movieKey;
-        this.movieName = movieName;
+        this.trailerName = trailerName;
     }
 
     public long getMovieId() {
@@ -22,7 +22,7 @@ public class MovieTrailer {
         return movieKey;
     }
 
-    public ArrayList<String> getMovieName() {
-        return movieName;
+    public ArrayList<String> getTrailerName() {
+        return trailerName;
     }
 }

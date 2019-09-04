@@ -17,7 +17,7 @@ public class MovieReview {
         return movieId;
     }
 
-    public ArrayList<String> getauthors() {
+    public ArrayList<String> getAuthors() {
         return authors;
     }
 

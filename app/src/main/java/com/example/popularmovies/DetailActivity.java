@@ -127,7 +127,7 @@ public class DetailActivity extends AppCompatActivity implements View.OnClickLis
             URL myURL;
             String result = null;
             try {
-                myURL = NetworkUtils.buildUrl(params[0]);
+                myURL = NetworkUtils.buildUrlDetailMovie(params[0]);
                 result = NetworkUtils.getResponseFromHttpUrl(myURL);
             } catch (IOException e) {
                 e.printStackTrace();

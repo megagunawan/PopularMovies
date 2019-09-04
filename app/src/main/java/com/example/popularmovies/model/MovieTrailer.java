@@ -4,8 +4,6 @@ import android.net.Uri;
 import java.util.ArrayList;
 
 public class MovieTrailer {
-    Uri uriTrailer;
-
     private final long movieId;
     private final ArrayList<String> movieKey;
     private final ArrayList<String> movieName;
@@ -14,7 +12,6 @@ public class MovieTrailer {
         this.movieId = movieId;
         this.movieKey = movieKey;
         this.movieName = movieName;
-        uriTrailer = Uri.parse("http://www.youtube.com/watch?v=" + movieKey);
     }
 
     public long getMovieId() {
@@ -27,9 +24,5 @@ public class MovieTrailer {
 
     public ArrayList<String> getMovieName() {
         return movieName;
-    }
-
-    public Uri getUriTrailer() {
-        return uriTrailer;
     }
 }

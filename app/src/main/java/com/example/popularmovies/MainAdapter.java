@@ -22,14 +22,14 @@ public class MainAdapter extends RecyclerView.Adapter<MainAdapter.PlaceViewHolde
     private ArrayList<String> imageURLs;
     private ArrayList<String> movieTitles;
     private ArrayList<Long> movieIds;
-    private final MyAdapterOnClickHandler mClickHandler;
+    private final MainAdapterOnClickHandler mClickHandler;
     private long movieId;
 
-    public interface MyAdapterOnClickHandler {
+    public interface MainAdapterOnClickHandler {
         void onClick(long movieId);
     }
 
-    public MainAdapter(MyAdapterOnClickHandler clickHandler) {
+    public MainAdapter(MainAdapterOnClickHandler clickHandler) {
         mClickHandler = clickHandler;
     }
 
@@ -43,8 +43,6 @@ public class MainAdapter extends RecyclerView.Adapter<MainAdapter.PlaceViewHolde
             mText = itemView.findViewById(R.id.title_tv);
             itemView.setOnClickListener(this);
         }
-
-
 
         @Override
         public void onClick(View view) {
@@ -93,7 +91,7 @@ public class MainAdapter extends RecyclerView.Adapter<MainAdapter.PlaceViewHolde
         imageURLs = new ArrayList<>();
         movieTitles = new ArrayList<>();
         movieIds = new ArrayList<>();
-        for (MovieEntry movie: movieEntries) {
+        for (MovieEntry movie : movieEntries) {
             imageURLs.add(movie.getImageURL());
             movieTitles.add(movie.getMovieTitle());
             movieIds.add(movie.getId());

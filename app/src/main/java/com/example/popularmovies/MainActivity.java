@@ -29,7 +29,7 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MainActivity extends AppCompatActivity implements MainAdapter.MyAdapterOnClickHandler {
+public class MainActivity extends AppCompatActivity implements MainAdapter.MainAdapterOnClickHandler {
 
     private RecyclerView mRecyclerView;
     private LinearLayout mLinearLayout;

@@ -5,6 +5,7 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.Observer;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.recyclerview.widget.RecyclerView.ViewHolder;
 
 import android.content.Context;
 import android.content.Intent;
@@ -15,6 +16,7 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 
 import com.example.popularmovies.database.AppDatabase;
@@ -32,7 +34,10 @@ import java.util.List;
 public class MainActivity extends AppCompatActivity implements MyAdapter.MyAdapterOnClickHandler {
 
     private RecyclerView mRecyclerView;
+    private LinearLayout mLinearLayout;
     private ProgressBar mLoadingIndicator;
+    private String POSITION_KEY = "position_key";
+    private String MENU_CHOICE = "menu_choice";
     private String userMenuChoice = "top_rated";
     private ArrayList<String> imageURLs = new ArrayList<>();
     private ArrayList<String> movieTitles = new ArrayList<>();
@@ -40,10 +45,17 @@ public class MainActivity extends AppCompatActivity implements MyAdapter.MyAdapt
     MyAdapter myAdapter;
     private AppDatabase mDatabase;
     private ArrayList<MovieEntry> movieEntries = new ArrayList<>();
+    private int currentPage = 1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        if (savedInstanceState != null) {
+            userMenuChoice = savedInstanceState.getString(MENU_CHOICE);
+            //mRecyclerView.scrollToPosition(savedInstanceState.getInt(POSITION_KEY));
+        }
+
         setContentView(R.layout.activity_main);
 
         mDatabase = AppDatabase.getsInstance(getApplicationContext());
@@ -51,6 +63,8 @@ public class MainActivity extends AppCompatActivity implements MyAdapter.MyAdapt
         mRecyclerView = (RecyclerView) findViewById(R.id.recycler_view);
         mLoadingIndicator = (ProgressBar) findViewById(R.id.pb_loading_indicator);
         GridLayoutManager gridLayoutManager = new GridLayoutManager(MainActivity.this, 2);
+
+        mLinearLayout = findViewById(R.id.linear_layout_custom);
 
         myAdapter = new MyAdapter(this);
         mRecyclerView.setAdapter(myAdapter);
@@ -96,7 +110,7 @@ public class MainActivity extends AppCompatActivity implements MyAdapter.MyAdapt
             URL myURL;
             String result = null;
             try {
-                myURL = NetworkUtils.buildUrl(params[0]);
+                myURL = NetworkUtils.buildUrl(params[0], currentPage);
                 result = NetworkUtils.getResponseFromHttpUrl(myURL);
             } catch (IOException e) {
                 e.printStackTrace();
@@ -142,6 +156,12 @@ public class MainActivity extends AppCompatActivity implements MyAdapter.MyAdapt
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putString(MENU_CHOICE, userMenuChoice);
     }
 }
 

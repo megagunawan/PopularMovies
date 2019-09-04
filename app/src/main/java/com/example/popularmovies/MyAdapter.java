@@ -45,6 +45,8 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.PlaceViewHolder> {
             itemView.setOnClickListener(this);
         }
 
+
+
         @Override
         public void onClick(View view) {
             int adapterPosition = getAdapterPosition();

@@ -17,10 +17,12 @@ public class NetworkUtils {
     private static final String API_KEY = "d5d3565fafb69b9ac4920bc1bc168880";
 
     private static final String API_PARAM = "api_key";
+    private static final String PAGE = "page";
 
-    public static URL buildUrl(String locationQuery) {
+    public static URL buildUrl(String locationQuery, int pageNum) {
         Uri myUri = Uri.parse(BASE_URL).buildUpon()
                 .appendPath(locationQuery)
+                .appendQueryParameter(PAGE, String.valueOf(pageNum))
                 .appendQueryParameter(API_PARAM, API_KEY)
                 .build();
         try {

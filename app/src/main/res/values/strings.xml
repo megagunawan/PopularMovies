@@ -10,4 +10,6 @@
     <string name="add_to_favorite_success">Added to Favorite List</string>
     <string name="unfavorite">Remove from Favorite List</string>
     <string name="unfavorite_success">Removed from Favorite List</string>
+    <string name="trailers">Trailers</string>
+    <string name="reviews">Reviews</string>
 </resources>

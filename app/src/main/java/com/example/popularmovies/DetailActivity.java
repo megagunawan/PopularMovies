@@ -215,19 +215,17 @@ public class DetailActivity extends AppCompatActivity implements TrailerAdapter.
                     .into(mBinding.detailImage);
 
             mBinding.releaseDateTv.setText(result.getRelease_date());
-            mBinding.ratingTv.setText(Double.toString(result.getVote_average()) + " / 10");
+            mBinding.ratingTv.setText(result.getVote_average() + " / 10");
             mBinding.summaryTv.setText(result.getOverview());
 
             Log.v("id", Long.toString(result.getId()));
         }
 
         private void showTrailer(ArrayList<String> keys, ArrayList<String> titles, long movieId){
-            Log.v("TRAILER", trailerKeys + "");
             trailerAdapter.setData(keys, titles, movieId);
         }
 
         private void showReview(ArrayList<String> authors, ArrayList<String> contents, long movieId){
-            Log.v("REVIEW", reviewAuthors + "");
             reviewAdapter.setData(authors, contents, movieId);
         }
 

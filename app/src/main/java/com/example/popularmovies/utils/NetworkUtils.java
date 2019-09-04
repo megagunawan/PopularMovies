@@ -50,7 +50,7 @@ public class NetworkUtils {
 
     public static URL buildUrlTrailerMovie(String movieId) {
         Uri myUri = Uri.parse(BASE_URL).buildUpon()
-                .appendPath(movieId + "/trailers")
+                .appendPath(movieId).appendPath("trailers")
                 .appendQueryParameter(API_PARAM, API_KEY)
                 .build();
         try {
@@ -64,7 +64,7 @@ public class NetworkUtils {
 
     public static URL buildUrlReviewMovie(String movieId) {
         Uri myUri = Uri.parse(BASE_URL).buildUpon()
-                .appendPath(movieId + "/reviews")
+                .appendPath(movieId).appendPath("reviews")
                 .appendQueryParameter(API_PARAM, API_KEY)
                 .build();
         try {

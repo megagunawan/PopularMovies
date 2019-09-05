@@ -101,18 +101,6 @@ public class MainActivity extends AppCompatActivity implements MainAdapter.MyAda
                         new MyAsyncTask().execute(userMenuChoice);
                     }
                 }
-//
-//                @Override
-//                public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
-//                    super.onScrollStateChanged(recyclerView, newState);
-//                    Log.v("test", "test");
-//                    currentPage++;
-//                    if (!recyclerView.canScrollVertically(1)) {
-//                        Log.v("currentPage", ""+currentPage);
-//                        //currentPage++;
-//                        new MyAsyncTask().execute(userMenuChoice);
-//                    }
-//                }
             });
         }
 

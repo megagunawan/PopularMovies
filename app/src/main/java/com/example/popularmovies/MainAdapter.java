@@ -22,7 +22,7 @@ public class MainAdapter extends RecyclerView.Adapter<MainAdapter.PlaceViewHolde
     private ArrayList<String> imageURLs = new ArrayList<>();
     private ArrayList<String> movieTitles = new ArrayList<>();
     private ArrayList<Long> movieIds = new ArrayList<>();
-    private final MyAdapterOnClickHandler mClickHandler;
+    private final MainAdapterOnClickHandler mClickHandler;
     private long movieId;
 
     public interface MainAdapterOnClickHandler {

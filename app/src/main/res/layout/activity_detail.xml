@@ -7,7 +7,7 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:layout_margin="10dp"
             android:orientation="vertical">
 
@@ -29,7 +29,10 @@
                     android:layout_width="0dp"
                     android:layout_height="280dp"
                     android:layout_weight="1"
+                    android:paddingLeft="0dp"
+                    android:paddingStart="0dp"
                     android:paddingRight="10dp"
+                    android:paddingEnd="10dp"
                     android:scaleType="fitStart" />
 
                 <LinearLayout
@@ -63,7 +66,8 @@
                     <TextView
                         android:id="@+id/rating_tv"
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content" />
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="4dp"/>
 
                     <Button
                         android:id="@+id/favorite_button"
@@ -77,12 +81,42 @@
             <TextView
                 android:id="@+id/summary_tv"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="16dp"/>
+
+            <TextView
+                android:id="@+id/tv_trailer_label"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/trailers"
+                android:textAppearance="@style/TextAppearance.AppCompat.Title"/>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginTop="2dp"
+                android:layout_marginBottom="2dp"
+                android:background="@color/black" />
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/recycler_view_trailer"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
+
+            <TextView
+                android:id="@+id/tv_review_label"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:text="@string/reviews"
+                android:textAppearance="@style/TextAppearance.AppCompat.Title"/>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginTop="2dp"
+                android:layout_marginBottom="2dp"
+                android:background="@color/black" />
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/recycler_view_review"

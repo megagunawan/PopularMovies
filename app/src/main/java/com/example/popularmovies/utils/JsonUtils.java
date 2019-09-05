@@ -220,7 +220,7 @@ public class JsonUtils {
             obj = new JSONObject(json);
             id = obj.getLong("id");
 
-            resultsArr = obj.getJSONArray("results");
+            resultsArr = obj.getJSONArray("youtube");
 
             for (int i = 0; i < resultsArr.length(); i++) {
                 resultsObj = resultsArr.getJSONObject(i);

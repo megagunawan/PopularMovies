@@ -34,13 +34,14 @@ public class ReviewAdapter extends RecyclerView.Adapter<ReviewAdapter.ReviewView
     @Override
     public ReviewViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         mContext = parent.getContext();
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.recycler_view_custom_layout, parent, false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.recycler_view_review_layout, parent, false);
         return new ReviewViewHolder(view);
     }
 
     @Override
     public void onBindViewHolder(ReviewViewHolder holder, int position) {
-        holder.mAuthor.setText(reviewAuthors.get(position));
+        String textAuthor = "Reviewer: " + reviewAuthors.get(position);
+        holder.mAuthor.setText(textAuthor);
         holder.mContent.setText(reviewContents.get(position));
     }
 

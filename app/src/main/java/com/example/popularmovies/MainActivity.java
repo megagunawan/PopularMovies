@@ -43,7 +43,6 @@ public class MainActivity extends AppCompatActivity implements MainAdapter.MyAda
     private ArrayList<Long> movieIDs = new ArrayList<>();
     MainAdapter myAdapter;
     private AppDatabase mDatabase;
-    private ArrayList<MovieEntry> movieEntries = new ArrayList<>();
     private int currentPage = 0;
 
     @Override
@@ -71,31 +70,55 @@ public class MainActivity extends AppCompatActivity implements MainAdapter.MyAda
 
         loadMovies();
     }
-
     private void loadMovies() {
+        Log.v("changedChoice", ""+changedChoice);
+        Log.v("userMenuChoice", "" + userMenuChoice);
+        Log.v("currentpage", "" + currentPage);
+        if (changedChoice == false && currentPage == 0 && userMenuChoice != "favorite") {
+            currentPage = 1;
+            new MyAsyncTask().execute(userMenuChoice);
+        }
+
         if (changedChoice == true && userMenuChoice != "favorite") {
             currentPage = 1;
             changedChoice = false;
             myAdapter = new MainAdapter(this);
             mRecyclerView.setAdapter(myAdapter);
             new MyAsyncTask().execute(userMenuChoice);
-        } else if (changedChoice == false && currentPage == 0 && userMenuChoice != "favorite") {
-            currentPage = 1;
-            new MyAsyncTask().execute(userMenuChoice);
         }
-        else if (changedChoice == false && userMenuChoice != "favorite") {
+
+        if (changedChoice == false && userMenuChoice != "favorite") {
+            Log.v("nextpage", "" + currentPage);
             mRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
                 @Override
-                public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
-                    super.onScrollStateChanged(recyclerView, newState);
-
+                public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
+                    super.onScrolled(recyclerView, dx, dy);
+                    Log.v("test", "test");
+                    //currentPage++;
                     if (!recyclerView.canScrollVertically(1)) {
+                        Log.v("currentPage", ""+currentPage);
                         currentPage++;
                         new MyAsyncTask().execute(userMenuChoice);
                     }
                 }
+//
+//                @Override
+//                public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
+//                    super.onScrollStateChanged(recyclerView, newState);
+//                    Log.v("test", "test");
+//                    currentPage++;
+//                    if (!recyclerView.canScrollVertically(1)) {
+//                        Log.v("currentPage", ""+currentPage);
+//                        //currentPage++;
+//                        new MyAsyncTask().execute(userMenuChoice);
+//                    }
+//                }
             });
-        } else {
+        }
+
+        if(userMenuChoice == "favorite" && changedChoice == true) {
+            currentPage = 1;
+            changedChoice = false;
             myAdapter = new MainAdapter(this);
             mRecyclerView.setAdapter(myAdapter);
             LiveData<List<MovieEntry>> movies = mDatabase.movieDao().getAllMovies();
